@@ -5,18 +5,32 @@
 //  Created by Валентин on 02.07.2025.
 //
 
+import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-    @AppStorage("notes") private var notes = ""
-    
+    @Environment(\.modelContext) var modelContext   //переменная, хранящаяся в оперативной памяти
+    @Query var students: [Student]  //переменная, хранящаяся на диске
+
     var body: some View {
         NavigationStack {
-            Form {
-                TextField("Enter your text", text: $notes, axis: .horizontal)
-                    .textFieldStyle(.roundedBorder)
-                    .navigationTitle("Notes")
-                    .padding()
+            List(students) { student in
+                Text(student.name)
+            }
+            .navigationTitle("Classroom")
+            .toolbar {
+                Button("Add") {
+                    let firstNames = ["Ginny", "Harry", "Hermione", "Luna", "Ron"]
+                    let lastNames = ["Granger", "Lovegood", "Potter", "Weasley"]
+                    
+                    let chosenFirstName = firstNames.randomElement()!
+                    let chosenLastName = lastNames.randomElement()!
+                    
+                    let student = Student(id: UUID(), name: "\(chosenFirstName) \(chosenLastName)")
+                    
+                    //сохраняем в оперативной памяти
+                    modelContext.insert(student)
+                }
             }
         }
     }
