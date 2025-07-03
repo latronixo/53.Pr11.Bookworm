@@ -17,30 +17,16 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             Text("Count: \(books.count)")
-//            List(students) { student in
-//                Text(student.name)
-//            }
-            .navigationTitle("Bookworm")
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Add") {
-                        showingAddScreen.toggle()
+                .navigationTitle("Bookworm")
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button("Add") {
+                            showingAddScreen.toggle()
+                        }
                     }
-                
-//                    let firstNames = ["Ginny", "Harry", "Hermione", "Luna", "Ron"]
-//                    let lastNames = ["Granger", "Lovegood", "Potter", "Weasley"]
-//                    
-//                    let chosenFirstName = firstNames.randomElement()!
-//                    let chosenLastName = lastNames.randomElement()!
-//                    
-//                    let student = Student(id: UUID(), name: "\(chosenFirstName) \(chosenLastName)")
-                    
-                    //сохраняем в оперативной памяти
-                    //modelContext.insert(student)
                 }
-            }
-            .sheet(isPresented: $showingAddScreen) {
-                AddBookView()
+                .sheet(isPresented: $showingAddScreen) {
+                    AddBookView()
             }
         }
     }
