@@ -10,27 +10,37 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.modelContext) var modelContext   //переменная, хранящаяся в оперативной памяти
-    @Query var students: [Student]  //переменная, хранящаяся на диске
+    @Query var books: [Book]  //переменная, которая будет инициализирована из БД, хранящейся на диске
+    
+    @State private var showingAddScreen = false
 
     var body: some View {
         NavigationStack {
-            List(students) { student in
-                Text(student.name)
-            }
-            .navigationTitle("Classroom")
+            Text("Count: \(books.count)")
+//            List(students) { student in
+//                Text(student.name)
+//            }
+            .navigationTitle("Bookworm")
             .toolbar {
-                Button("Add") {
-                    let firstNames = ["Ginny", "Harry", "Hermione", "Luna", "Ron"]
-                    let lastNames = ["Granger", "Lovegood", "Potter", "Weasley"]
-                    
-                    let chosenFirstName = firstNames.randomElement()!
-                    let chosenLastName = lastNames.randomElement()!
-                    
-                    let student = Student(id: UUID(), name: "\(chosenFirstName) \(chosenLastName)")
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Add") {
+                        showingAddScreen.toggle()
+                    }
+                
+//                    let firstNames = ["Ginny", "Harry", "Hermione", "Luna", "Ron"]
+//                    let lastNames = ["Granger", "Lovegood", "Potter", "Weasley"]
+//                    
+//                    let chosenFirstName = firstNames.randomElement()!
+//                    let chosenLastName = lastNames.randomElement()!
+//                    
+//                    let student = Student(id: UUID(), name: "\(chosenFirstName) \(chosenLastName)")
                     
                     //сохраняем в оперативной памяти
-                    modelContext.insert(student)
+                    //modelContext.insert(student)
                 }
+            }
+            .sheet(isPresented: $showingAddScreen) {
+                AddBookView()
             }
         }
     }
