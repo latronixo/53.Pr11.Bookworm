@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.modelContext) var modelContext   //переменная, хранящаяся в оперативной памяти
-    @Query var books: [Book]  //переменная, которая будет инициализирована из БД, хранящейся на диске
+    @Query(sort: \Book.title, order: .reverse) var books: [Book]  //переменная, которая будет инициализирована из БД, хранящейся на диске
     
     @State private var showingAddScreen = false
 
