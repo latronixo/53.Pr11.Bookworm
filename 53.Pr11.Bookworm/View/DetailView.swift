@@ -38,7 +38,7 @@ struct DetailView: View {
             Text(book.review)
                 .padding()
             
-            Text(book.dateAdding2.formatted(date: .abbreviated, time: .omitted))
+            Text(book.dateAdding3.formatted(date: .abbreviated, time: .omitted))
                 .padding()
             
             RatingView(rating: .constant(book.rating))
