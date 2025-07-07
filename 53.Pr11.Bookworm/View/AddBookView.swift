@@ -19,13 +19,12 @@ struct AddBookView: View {
     @State private var genre = "noname genre"
     @State private var review = "default review"
     
-    private var readyToSave: Bool {
+    private var disableSaveButton: Bool {
         //Проверяем, не являются ли строки пустыми или состоящими только из пробелов
         let title = title.trimmingCharacters(in: .whitespacesAndNewlines)
         let author = author.trimmingCharacters(in: .whitespacesAndNewlines)
-        let review = review.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        return title.isEmpty && author.isEmpty && review.isEmpty
+        return title.isEmpty || author.isEmpty
     }
     
     let genres = ["noname genre", "Fantasy", "Horror", "Kids", "Mystery", "Poetry", "Romance", "Thriller"]
@@ -52,11 +51,11 @@ struct AddBookView: View {
                 
                 Section {
                     Button("Save") {
-                        let newBook = Book(title: title, author: author, genre: genre, review: review, rating: rating)
+                        let newBook = Book(title: title, author: author, genre: genre, review: review, rating: rating, dateAdding: Date.now)
                         modelContext.insert(newBook)
                         dismiss()
                     }
-                    .disabled(readyToSave)
+                    .disabled(disableSaveButton)
                 }
             }
             .navigationTitle("Add Book")
