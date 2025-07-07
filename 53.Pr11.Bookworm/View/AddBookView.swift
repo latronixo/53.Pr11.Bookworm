@@ -13,13 +13,22 @@ struct AddBookView: View {
     @Environment(\.dismiss) var dismiss
     
     //локальные переменные, необходимые для добавления новой книги (для инициализации модели Book)
-    @State private var title = ""
-    @State private var author = ""
+    @State private var title = "default title"
+    @State private var author = "default author"
     @State private var rating = 3
-    @State private var genre = "Fantasy"
-    @State private var review = ""
+    @State private var genre = "noname genre"
+    @State private var review = "default review"
     
-    let genres = ["Fantasy", "Horror", "Kids", "Mystery", "Poetry", "Romance", "Thriller"]
+    private var readyToSave: Bool {
+        //Проверяем, не являются ли строки пустыми или состоящими только из пробелов
+        let title = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        let author = author.trimmingCharacters(in: .whitespacesAndNewlines)
+        let review = review.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        return title.isEmpty && author.isEmpty && review.isEmpty
+    }
+    
+    let genres = ["noname genre", "Fantasy", "Horror", "Kids", "Mystery", "Poetry", "Romance", "Thriller"]
     
     var body: some View {
         NavigationStack {
@@ -47,6 +56,7 @@ struct AddBookView: View {
                         modelContext.insert(newBook)
                         dismiss()
                     }
+                    .disabled(readyToSave)
                 }
             }
             .navigationTitle("Add Book")
@@ -57,3 +67,4 @@ struct AddBookView: View {
 #Preview {
     AddBookView()
 }
+
