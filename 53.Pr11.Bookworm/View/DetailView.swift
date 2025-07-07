@@ -38,6 +38,9 @@ struct DetailView: View {
             Text(book.review)
                 .padding()
             
+            Text(book.dateAdding2.formatted(date: .abbreviated, time: .omitted))
+                .padding()
+            
             RatingView(rating: .constant(book.rating))
                 .font(.largeTitle)
         }
@@ -68,7 +71,7 @@ struct DetailView: View {
     do {
          let config = ModelConfiguration(isStoredInMemoryOnly: true)//конфигурация модели будет храниться только в памяти
          let container = try ModelContainer(for: Book.self, configurations: config)//создадим новый контейнер, используя модель для нашей книги
-         let example = Book(title: "Test Book", author: "Test Author", genre: "Fantasy", review: "This was a great book; I really enjoyed it.", rating: 4)//создадим пример книги
+        let example = Book(title: "Test Book", author: "Test Author", genre: "Fantasy", review: "This was a great book; I really enjoyed it.", rating: 4, dateAdding: Date.now)//создадим пример книги
 
          return DetailView(book: example)
              .modelContainer(container)
